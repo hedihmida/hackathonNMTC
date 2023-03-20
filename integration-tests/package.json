@@ -1,5 +1,5 @@
 {
-  "name": "integration-tests",
+  "name": "ava-testing",
   "version": "1.0.0",
   "license": "(MIT AND Apache-2.0)",
   "scripts": {

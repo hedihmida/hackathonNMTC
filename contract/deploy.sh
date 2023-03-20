@@ -1,7 +1,13 @@
 #!/bin/sh
 
-# build the contract
-npm run build
+./build.sh
 
-# deploy the contract
-near dev-deploy --wasmFile build/contract.wasm
+if [ $? -ne 0 ]; then
+  echo ">> Error building contract"
+  exit 1
+fi
+
+echo ">> Deploying contract"
+
+# https://docs.near.org/tools/near-cli#near-dev-deploy
+near dev-deploy --wasmFile build/hello_near.wasm

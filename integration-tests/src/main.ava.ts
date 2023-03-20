@@ -13,16 +13,17 @@ test.beforeEach(async (t) => {
   // Deploy contract
   const root = worker.rootAccount;
   const contract = await root.createSubAccount('test-account');
-
   // Get wasm file path from package.json test script in folder above
-  await contract.deploy(process.argv[2]);
+  await contract.deploy(
+    process.argv[2],
+  );
 
   // Save state for test runs, it is unique for each test
   t.context.worker = worker;
   t.context.accounts = { root, contract };
 });
 
-test.afterEach(async (t) => {
+test.afterEach.always(async (t) => {
   // Stop Sandbox server
   await t.context.worker.tearDown().catch((error) => {
     console.log('Failed to stop the Sandbox:', error);
@@ -31,13 +32,13 @@ test.afterEach(async (t) => {
 
 test('returns the default greeting', async (t) => {
   const { contract } = t.context.accounts;
-  const greeting: string = await contract.view('get_greeting', {});
-  t.is(greeting, 'Hello');
+  const message: string = await contract.view('get_greeting', {});
+  t.is(message, 'Hello');
 });
 
-test('changes the greeting', async (t) => {
+test('changes the message', async (t) => {
   const { root, contract } = t.context.accounts;
-  await root.call(contract, 'set_greeting', { greeting: 'Howdy' });
-  const greeting: string = await contract.view('get_greeting', {});
-  t.is(greeting, 'Howdy');
+  await root.call(contract, 'set_greeting', { message: 'Howdy' });
+  const message: string = await contract.view('get_greeting', {});
+  t.is(message, 'Howdy');
 });

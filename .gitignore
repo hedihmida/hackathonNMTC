@@ -6,18 +6,17 @@ node_modules
 .pnp.js
 
 # build
-**/out
-**/dist
-**/node_modules
+/out
+/dist
 
 # keys
-**/neardev
+/templates/react/neardev
 
 # testing
 /coverage
 
 # production
-**/build
+/build
 
 # misc
 .DS_Store
